@@ -66,25 +66,25 @@ jar {
 }
 
 model {
-  components {
-    hello(JniNativeLibrarySpec) { // Use JniNativeLibrarySpec to get a JNI library
-      targetPlatform wpi.platforms.roborio
-      enableCheckTask true // Set to true to enable a JNI check task. This will search all generated JNI headers, and check to ensure their symbols exist in the native library
-      javaCompileTasks << compileJava // set javaCompileTasks to any java compile tasks that contain your JNI classes. It is a list of tasks
-      jniCrossCompileOptions << JniCrossCompileOptions('athena')
-        sources.cpp {
-            source {
-                srcDir 'src/main/jni/cpp'
-                include '**/*.cpp', '**/*.c'
-            }
-            exportedHeaders {
-                srcDirs 'src/main/jni/include','src/main/resources/arm-linux-jni/linux'
-                if (project.hasProperty('generatedHeaders')) {
-                    srcDir generatedHeaders
+    components {
+        hello(JniNativeLibrarySpec) { // Use JniNativeLibrarySpec to get a JNI library
+            targetPlatform wpi.platforms.roborio
+            enableCheckTask true // Set to true to enable a JNI check task. This will search all generated JNI headers, and check to ensure their symbols exist in the native library
+            javaCompileTasks << compileJava // set javaCompileTasks to any java compile tasks that contain your JNI classes. It is a list of tasks
+            jniCrossCompileOptions << JniCrossCompileOptions('athena')
+            sources.cpp {
+                source {
+                    srcDir 'src/main/jni/cpp'
+                    include '**/*.cpp', '**/*.c'
                 }
-                include '**/*.h'
+                exportedHeaders {
+                    srcDirs 'src/main/jni/include','src/main/resources/arm-linux-jni/linux'
+                    if (project.hasProperty('generatedHeaders')) {
+                        srcDir generatedHeaders
+                    }
+                    include '**/*.h'
+                }
             }
         }
     }
-  }
 }
